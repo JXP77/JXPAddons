@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "jxpaddons",
+	"version": "${version}",
+	"name": "JXP Addons",
+	"description": "A blue and gray draggable click GUI with Combat, Mining, Farming and Misc panels. Open it with Right Shift or /jxp.",
+	"authors": [
+		"JXP"
+	],
+	"license": "All-Rights-Reserved",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.jxpaddons.JXPAddonsClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
