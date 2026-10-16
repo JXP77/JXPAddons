@@ -1,0 +1,46 @@
+plugins {
+	// Minecraft 26.1+ uses the new Loom plugin id (not "fabric-loom")
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// Loom adds the Minecraft and Fabric repositories automatically.
+	// Only add more here if you depend on other mods.
+}
+
+dependencies {
+	// Versions are defined in gradle.properties.
+	// Minecraft 26.1+ is unobfuscated, so there is NO "mappings" line.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API (client commands, key mappings and tick events are used by this mod)
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+	def modVersion = project.version
+	inputs.property "version", modVersion
+
+	filesMatching("fabric.mod.json") {
+		expand "version": modVersion
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Minecraft 26.1 requires Java 25
+	it.options.release = 25
+}
+
+java {
+	// NOTE: there is deliberately no withSourcesJar() here. A -sources jar contains a copy of
+	// fabric.mod.json, so if it ends up in the mods folder next to the real jar, Fabric sees the
+	// same mod twice and refuses to load it. With this line gone, the build makes exactly ONE jar.
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
